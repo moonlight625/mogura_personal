@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Hole
   - mogura
+  - gold
+  - bomb
+  - Start
   layers:
   - Default
   - TransparentFX

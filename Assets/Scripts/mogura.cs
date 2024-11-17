@@ -6,7 +6,7 @@ using UnityEngine;
 public class mogura : MonoBehaviour
 {
     private float time;
-    private float speed = 1.0f;
+    public float range = 0.8f;
     public float lifespan = 2.0f;
     
     // Start is called before the first frame update
@@ -25,14 +25,14 @@ public class mogura : MonoBehaviour
         Vector3 pos = transform.position;
         if (time < lifespan/2)
         {
-            pos.y += speed * Time.deltaTime;
-            if (pos.y >= 0.9f)
+            pos.y += range/lifespan * Time.deltaTime;
+            if (pos.y >= range)
             {
-                pos.y = 0.9f;
+                pos.y = range;
             }
         }else if (time < lifespan)
         {
-            pos.y -= speed * Time.deltaTime;
+            pos.y -= range/lifespan * Time.deltaTime;
         }
         else
         {

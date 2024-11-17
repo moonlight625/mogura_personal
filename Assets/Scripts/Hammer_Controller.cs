@@ -2,46 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = System.Object;
 
 public class Hammer_Controller : MonoBehaviour
 {
     
-    Quaternion rot0;
-    Vector3 pos0;
-    // Start is called before the first frame update
-    void Start()
+    public int score_mogura = 1;
+    public int score_gold = 2;
+    public int score_bomb = -3;
+    private AudioSource audioSource;
+
+    public AudioSource audioSouse;
+    public AudioClip se_mog;
+    public AudioClip se_bom;
+    public AudioClip se_gol;
+
+    private void Start()
     {
-        rot0 = transform.localRotation;
-        pos0 = transform.position;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Quaternion rot = transform.localRotation;
-        
-        Vector3 pos = transform.position;
-        
-        
-        if (Input.GetKeyDown("space"))
-        {
-            //Debug.Log("down");
-            rot.z += 30.0f;
-            pos.z += 1.0f;
-            rot0 = transform.rotation;
-            pos0 = transform.position;
-        }
-
-        if (Input.GetKeyUp("space"))
-        {
-            //Debug.Log("up");
-            
-            rot = rot0;
-            pos = pos0;
-        }
-
-        transform.localRotation = rot;
-        transform.position = pos;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,8 +26,29 @@ public class Hammer_Controller : MonoBehaviour
         if (other.gameObject.tag == "mogura")
         {
             Debug.Log("Hit");
-            Score_static.score += 1;
+            Score_static.score += score_mogura;
+            audioSource.PlayOneShot(se_mog);
             Destroy(other.gameObject);
+        }
+        if (other.gameObject.tag == "gold")
+        {
+            Debug.Log("Hit");
+            Score_static.score += score_gold;
+            audioSource.PlayOneShot(se_gol);
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.tag == "bomb")
+        {
+            Debug.Log("Hit");
+            Score_static.score += score_bomb;
+            audioSource.PlayOneShot(se_bom);
+            Destroy(other.gameObject);
+        }   
+        if (other.gameObject.tag == "Start")
+        {
+            audioSource = other.GetComponent<AudioSource>();
+            //audioSource.PlayOneShot(audioSource.clip);
+            other.gameObject.GetComponent<Time_Manager>().initGame();
         }
     }
 }
